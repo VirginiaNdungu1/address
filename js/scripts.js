@@ -33,12 +33,21 @@ $(document).ready(function() {
       '</div>' +
       '</div>');
   });
-
+  //
   $("form#newContact").submit(function(event) {
     event.preventDefault();
     var userFirstName = $("input#new-firstName").val();
     var userLastName = $("input#new-lastName").val();
     var newContact = new Contact(userFirstName, userLastName);
+    //  loop through the address form fields to collect the address data.
+    $(".new-address").each(function() {
+      var inputStreet = $(this).find("input.new-street").val();
+      var inputCity = $(this).find("input.new-city").val();
+      var inputCounty = $(this).find("input.new-county").val();
+      // Create an object newAddress of type Addresses
+      var newAddress = new Addresses(inputStreet, inputCity, inputCounty);
+      newContact.addresses.push(newAddress);
+    });
     var jane = new Contact("Jane", "Njeri");
     console.log(jane);
     var home = new Addresses("671 Ngong Road", "Nairobi", "Nairobi");
