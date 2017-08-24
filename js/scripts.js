@@ -14,6 +14,17 @@ function Addresses(street, city, county) {
   this.city = city;
   this.county = county;
 }
+Addresses.prototype.fullAddress = function() {
+  return this.street + " " + this.city + " " + this.county;
+}
+// reset the fields
+function resetFields() {
+  $("input#new-first-name").val("");
+  $("input#new-last-name").val("");
+  $("input.new-street").val("");
+  $("input.new-city").val("");
+  $("input.new-county").val("");
+}
 // user interface logic
 
 $(document).ready(function() {
@@ -48,14 +59,6 @@ $(document).ready(function() {
       var newAddress = new Addresses(inputStreet, inputCity, inputCounty);
       newContact.addresses.push(newAddress);
     });
-    var jane = new Contact("Jane", "Njeri");
-    console.log(jane);
-    var home = new Addresses("671 Ngong Road", "Nairobi", "Nairobi");
-    console.log(home);
-    jane.addresses.push(home);
-    console.log(jane);
-    console.log(jane.addresses);
-
     $("ul#contacts").append("<li><span class='contact'> " + newContact.fullName() + "</span></li>");
     //shows contact when it is clicked.
     $(".contact").last().click(function() {
@@ -63,9 +66,17 @@ $(document).ready(function() {
       $("#showContacts h2").text(newContact.firstName);
       $(".first-name").text(newContact.firstName);
       $(".last-name").text(newContact.lastName);
+      $("#addresses").text("");
+      newContact.addresses.forEach(function(address) {
+        // $("ul#addresses").append("<li>" + address.street + "," + address.city + " " + address.county + "</li>")
+        $("ul#addresses").append("<li>" + address.fullAddress() + "</li>")
+      });
     });
     $("input#new-firstName").val("");
     $("input#new-lastName").val("");
+    $("input.new-street").val("");
+    $("input.new-city").val("");
+    $("input.new-county").val("");
   });
-
+  resetFields();
 });
